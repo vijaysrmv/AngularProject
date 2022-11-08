@@ -1,0 +1,229 @@
+<div class="container-fluid" style="padding:0px ;">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="bread-crumb" style="text-align: end;">
+                
+                <button class="btn btn-primary add-btn" (click)="open(content)" title="Add">
+                    <img src="../../../../../ccf-oao-assets/images/plus.svg" />Add
+                </button>
+            </div>
+            <div>
+
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Facility Type</th>
+                            <th>Loan No.</th>
+                            <th>Existing Limit Amount</th>
+                          
+                            <th>Tenor (Months)</th>
+                            <th>Bank / Financial Institution Name</th>
+                            <th>Maturity Date</th>
+                            <th>Account Classification</th>
+                            <th [width]="128" title="Actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let rowdata of users">
+                            <td>{{rowdata.facilityType}}</td>
+                            <td>{{rowdata.loanNo}}</td>
+                            <td>{{rowdata.existinglimit}}</td>
+                          
+                            <td>{{rowdata.tenure}}</td>
+                            <td>{{rowdata.bankFinancial}}</td>
+                            <td>{{rowdata.maturityDate}}</td>
+                            <td>{{rowdata.accountclassification}}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="editUser(rowdata, content)" title="Edit">
+                                    <img src="../../../../../ccf-oao-assets/images/pencil.svg" width="15" />
+                                </button>
+                                <button style="background-color: red;" class="btn btn-red" (click)="deleteUser(i.id)" title="Delete">
+                                    <img src="../../../../../ccf-oao-assets/images/trash.svg" width="15" />
+                                </button>
+                            </td>
+                            
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+            <ng-template #content let-modal>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">{{selectedUser? "Edit Student": "New Student"}}</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="close(modal)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Simple Form -->
+                    <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                        <div class="row">
+						
+                            <div class="form-group col-xs-12 col-md-4 col-sm-9">
+                                <label for="sector">Facility Type</label>
+                                <select
+                                    class="form-control"
+                                    name="facilityType"
+                                    id="facilityType"
+                                    [(ngModel)]="facilityType"
+                                    name="facilityType"
+                                    
+                                >
+                                <option *ngFor="let id of identificationType" [attr.aria-label]="id" [value]="id">
+                                    {{ id}}
+                                </option>
+                                </select>
+                                
+                                
+                            </div>
+
+
+                            <div *ngFor="let element of inputElementArray"  class="form-group col-xs-12 col-sm-9 col-md-4">
+                                <label for={{element.id}}
+                                    >{{element.name}}
+                                </label>
+                                <input 
+                                    type={{element.type}}
+                                    autocomplete="nope"
+                                    class="form-control"
+                                   
+                                    name={{element.key}}
+                                    placeholder={{element.name}}
+                                   [(ngModel)]="element.id"
+                                    
+                                />
+
+                            </div>
+
+
+    
+                                <!--<div  class="form-group col-xs-12 col-sm-12 col-md-4">
+                                    <label for="loanNo"
+                                        >Loan No.
+                                    </label>
+                                    <input 
+                                        type="text"
+                                        autocomplete="nope"
+                                        class="form-control"
+                                       
+                                        name="loanNo"
+                                        placeholder="Loan No"
+                                       [(ngModel)]="loanNo"
+                                        
+                                    />
+    
+                                </div>
+
+
+                                    
+                                <div  class="form-group col-xs-12 col-sm-12 col-md-4">
+                                    <label for="existinglimit"
+                                        >Existing Limit Amount
+                                    </label>
+                                    <input 
+                                        type="text"
+                                        autocomplete="nope"
+                                        class="form-control"
+                                       
+                                        name="existinglimit"
+                                        placeholder="Existing Limit Amount"
+                                       [(ngModel)]="existinglimit"
+                                        
+                                    />
+    
+                                </div>
+
+
+                                    
+                                <div  class="form-group col-xs-12 col-sm-12 col-md-4">
+                                    <label for="tenure"
+                                        >Tenor (Months)
+                                    </label>
+                                    <input 
+                                        type="text"
+                                        autocomplete="nope"
+                                        class="form-control"
+                                       
+                                        name="tenure"
+                                        placeholder="Tenor (Months)"
+                                       [(ngModel)]="tenure"
+                                        
+                                    />
+    
+                                </div>
+
+                                    
+                                <div  class="form-group col-xs-12 col-sm-12 col-md-4">
+                                    <label for="bankFinancial"
+                                        >Bank / Financial Institution Name
+                                    </label>
+                                    <input 
+                                        type="text"
+                                        autocomplete="nope"
+                                        class="form-control"
+                                       
+                                        name="bankFinancial"
+                                        placeholder="Bank / Financial Institution Name"
+                                       [(ngModel)]="bankFinancial"
+                                        
+                                    />
+    
+                                </div>
+
+                                <div  class="form-group col-xs-12 col-sm-12 col-md-4">
+                                    <label for="maturityDate"
+                                        >Bank / Financial Institution Name
+                                    </label>
+                                    <input 
+                                        type="date"
+                                        autocomplete="nope"
+                                        class="form-control"
+                                       
+                                        name="maturityDate"
+                                        placeholder="Maturity Date"
+                                       [(ngModel)]="maturityDate"
+                                        
+                                    />
+    
+                                </div>-->
+    
+                                 <div class="form-group col-xs-12 col-sm-9 col-md-4">
+                                    <label for="sector">Account Classification</label>
+                                    <select
+                                        class="form-control"
+                                        name="accountclassification"
+                                        id="accountclassification"
+                                        [(ngModel)]="accountclassification"
+                                        
+                                      
+                                        
+                                    >
+                                    <option *ngFor="let id of accountClassification12" [attr.aria-label]="id" [value]="id">
+                                        {{ id}}
+                                    </option>
+                                    </select>
+                                    
+                                    
+                                </div>
+                                
+                                
+    
+                                
+    
+                            
+                        </div>
+                        <hr>
+                        <div>
+                            <div class="text-center">
+                                <button data-dismiss="modal" class="btn btn-info">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
